@@ -15,6 +15,9 @@ const draw_map_start_x = canvas.width - map_width- 15; // 15 pixels for padding
 const draw_map_start_y = 15
 
 
+const map_colors = {1: 'MediumPurple', 2: 'MediumSpringGreen'};
+
+
 function drawInfo() {
     ctx.font = "15px Arial sans-serif";
     ctx.fillStyle = "BlueViolet";
@@ -26,10 +29,8 @@ function drawMap() {
     ctx.fillRect(draw_map_start_x, draw_map_start_y, map_width, map_height);
     gameMap.map.forEach((row, rowIndex) => {
         row.forEach((tile, colIndex) => {
-            if (tile === 1) { 
-                ctx.fillStyle = 'MediumPurple';
-            } else if (tile === 2) {
-                ctx.fillStyle = 'MediumSpringGreen';
+            if (map_colors[tile]) {
+                ctx.fillStyle = map_colors[tile];
             }
             else {
                 ctx.fillStyle = 'white';
