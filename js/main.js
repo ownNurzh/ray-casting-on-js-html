@@ -26,7 +26,7 @@ const map_colors = {1: 'MediumPurple',player:"MediumSpringGreen",direction :"Med
 function drawInfo() {
     ctx.font = "15px Arial sans-serif";
     ctx.fillStyle = "BlueViolet";
-    ctx.fillText(`X : ${player.position.x} | Y : ${player.position.y} , DIR : ${player.direction} , POV : ${player.pov}`, 10, 20);
+    ctx.fillText(`X : ${player.position.x.toFixed(2)} | Y : ${player.position.y.toFixed(2)} , DIR : ${player.direction.toFixed(2)} , POV : ${player.pov}`, 10, 20);
 }
 
 
