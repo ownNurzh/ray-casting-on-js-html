@@ -32,8 +32,15 @@ function drawInfo() {
 
 
 function drawMiniMap() {
+    // add clip to draw only the mini-map area
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(draw_map_start_x, draw_map_start_y, map_width, map_height);
+
+    ctx.clip();
     ctx.fillStyle = 'black';
     ctx.fillRect(draw_map_start_x, draw_map_start_y, map_width, map_height);
+
     gameMap.map.forEach((row, rowIndex) => {
         row.forEach((tile, colIndex) => {
             if (map_colors[tile]) {
@@ -72,6 +79,8 @@ function drawMiniMap() {
 
         });
     });
+    // restore the context to remove the clip
+    ctx.restore();
 }
 
 
