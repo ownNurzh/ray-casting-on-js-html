@@ -7,18 +7,20 @@ const gameMap = new Map();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext("2d");
 
+const player_direction_line_width = 2
 const map_size_per_tile = 15; // Size of each tile in pixels
+const map_size_per_tile_center = map_size_per_tile / 2; // Center offset for drawing
+const map_direction_center = map_size_per_tile_center - player_direction_line_width / 2; // Center offset for direction line
 const map_width = gameMap.map[0].length * map_size_per_tile
 const map_height = gameMap.map.length * map_size_per_tile;
 
-const draw_map_start_x = canvas.width - map_width- 15; // 15 pixels for padding
-const draw_map_start_y = 15
+
+const mini_map_padding = 15; // Padding around the mini-map
+const draw_map_start_x = canvas.width - map_width- mini_map_padding;
+const draw_map_start_y = mini_map_padding
 
 
-
-
-
-const map_colors = {1: 'MediumPurple',player:"MediumSpringGreen"};
+const map_colors = {1: 'MediumPurple',player:"MediumSpringGreen",direction :"MediumSlateBlue"};
 
 
 function drawInfo() {
@@ -61,16 +63,11 @@ function drawMiniMap() {
             // draw player direction
             
             ctx.beginPath();
-
-
-            ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + (map_size_per_tile / 2 - 1), draw_map_start_y + player.position.y * map_size_per_tile + (map_size_per_tile / 2 - 1));
-
-            let direction_pos = player.get_direction_pos(2);
-            ctx.lineTo(draw_map_start_x + direction_pos.x * map_size_per_tile, draw_map_start_y + direction_pos.y * map_size_per_tile);
-
-            ctx.strokeStyle = "MediumPurple";
-            ctx.lineWidth = 2;
-
+            ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
+            let direction_pos = player.get_direction_pos(3);
+            ctx.lineTo(draw_map_start_x + direction_pos.x * map_size_per_tile + map_direction_center, draw_map_start_y + direction_pos.y * map_size_per_tile + map_direction_center);
+            ctx.strokeStyle = map_colors.direction;
+            ctx.lineWidth = player_direction_line_width;
             ctx.stroke();
 
         });
