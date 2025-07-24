@@ -15,7 +15,7 @@ const draw_map_start_x = canvas.width - map_width- 15; // 15 pixels for padding
 const draw_map_start_y = 15
 
 
-const map_colors = {1: 'MediumPurple', 2: 'MediumSpringGreen'};
+const map_colors = {1: 'MediumPurple'};
 
 
 function drawInfo() {
@@ -34,6 +34,10 @@ function drawMap() {
             }
             else {
                 ctx.fillStyle = 'white';
+            }
+
+            if (rowIndex == player.position.x && colIndex == player.position.y  && tile == 0) {
+                ctx.fillStyle = 'MediumSpringGreen';
             }
             ctx.fillRect(
                 draw_map_start_x + colIndex * map_size_per_tile,
@@ -54,4 +58,8 @@ function render() {
     requestAnimationFrame(render);
 }
 
-render();
+function start() {
+    // start
+    render();
+}
+start();
