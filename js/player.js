@@ -3,6 +3,8 @@ export class Player {
         this.position = {x: 1, y: 1};
         this.pov = 60;
         this.direction = 0;
+        this.move_speed = 0.5;
+        this.rotate_speed = 15;
     }
 
 
@@ -13,17 +15,19 @@ export class Player {
         };
     }
 
-    move(speed) {
+    move(speed,map) {
         let new_pos = this.get_direction_pos(speed);
-        this.position.x = new_pos.x;
-        this.position.y = new_pos.y;
+        if (map && map[Math.round(new_pos.y)][Math.round(new_pos.x)] !== 0) {
+            return;
+        }
+
+        this.position = new_pos;
     }
 
     
 
     rotate(degrees) {
-        //player.rotate(1);  поворот вправо на 1°
-        //player.rotate(-1); поворот влево на 1°
+
         const radians = degrees * Math.PI / 180;
         this.direction += radians;
         this.direction %= 2 * Math.PI;
