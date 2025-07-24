@@ -5,9 +5,22 @@ export class Player {
         this.direction = 0;
     }
 
-    move() {
-        //pass
+
+    get_direction_pos(speed) {
+        return {
+            x: this.position.x + Math.cos(this.direction) * speed,
+            y: this.position.y + Math.sin(this.direction) * speed
+        };
     }
+
+    move(speed) {
+        let new_pos = this.get_direction_pos(speed);
+        this.position.x = new_pos.x;
+        this.position.y = new_pos.y;
+    }
+
+    
+
     rotate(degrees) {
         //player.rotate(1);  поворот вправо на 1°
         //player.rotate(-1); поворот влево на 1°
