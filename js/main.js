@@ -74,7 +74,7 @@ function drawMiniMap() {
     
     ctx.beginPath();
     ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
-    let direction_pos = player.get_direction_pos(3);
+    let direction_pos = player.get_direction_pos(player.move_speed * 2);
     ctx.lineTo(draw_map_start_x + direction_pos.x * map_size_per_tile + map_direction_center, draw_map_start_y + direction_pos.y * map_size_per_tile + map_direction_center);
     ctx.strokeStyle = map_colors.direction;
     ctx.lineWidth = player_direction_line_width;
