@@ -144,8 +144,17 @@ function calculateRayDIrections() {
 }
 
 function drawPseudo3d() {
+    let current_wall_pos = {x: -1, y: -1};
     for (let i = 0; i < canvas.width; i++) {
         let ray = ray_positions[i];
+        let map_x = Math.floor(ray.x);
+        let map_y = Math.floor(ray.y);
+        let ribs = false;
+        if (current_wall_pos && current_wall_pos.x != map_x || current_wall_pos.y != map_y) {
+            current_wall_pos = {x:map_x, y:map_y};
+            ribs = true;
+        }
+
         let ray_angle = ray.angle;
         let distance = ray.distance;
         let corrected_distance = distance * Math.cos(ray_angle - player.direction);
@@ -154,9 +163,15 @@ function drawPseudo3d() {
         let wall_top = (canvas.height - wall_height) / 2;
         let wall_bottom = wall_top + wall_height;
 
-
-        ctx.fillStyle = darkenColor(render_colors.wall,1 - corrected_distance / max_distance);
+        ctx.fillStyle = "black";
+        if (ribs === false) {
+            ctx.fillStyle = darkenColor(render_colors.wall,1 - corrected_distance / max_distance);
+        }
         ctx.fillRect(i, wall_top, 1, wall_height);
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(i, wall_top, 1, 3);
+        ctx.fillRect(i, wall_bottom - 3, 1,3);
 
         let gradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
         gradient.addColorStop(0,"gray"); // farther
