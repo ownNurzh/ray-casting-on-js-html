@@ -116,8 +116,8 @@ function calculateRayDIrections() {
             ray_x += ray_dx * step_size;
             ray_y += ray_dy * step_size;
             distance += step_size;
-            map_x = Math.floor(ray_x);
-            map_y = Math.floor(ray_y);
+            map_x = Math.round(ray_x);
+            map_y = Math.round(ray_y);
 
             if (gameMap.map[map_y] && gameMap.map[map_y][map_x] && gameMap.map[map_y][map_x] !== 0) {
                 break;
