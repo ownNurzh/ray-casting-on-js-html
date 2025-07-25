@@ -83,7 +83,7 @@ function drawMiniMap() {
     // ctx.stroke();
 
     // draw player ray directions 
-    for (let i = 0; i < ray_postions.length; i += 25) {
+    for (let i = 0; i < ray_postions.length; i += 50) {
         let ray = ray_postions[i];
         if (!ray) continue;
         ctx.beginPath();
