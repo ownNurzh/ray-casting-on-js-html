@@ -26,7 +26,7 @@ A simple 3D raycasting renderer written in pure JavaScript and HTML Canvas, insp
 
 Clone the project and open `index.html` in the browser:
 
-## Лицензия
+## LICENSE
 
 This project is licensed under [MIT License](./LICENSE).
 
