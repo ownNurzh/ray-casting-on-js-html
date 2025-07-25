@@ -74,20 +74,34 @@ function drawMiniMap() {
 
     // draw player direction
     
-    ctx.beginPath();
-    ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
-    let direction_pos = player.get_direction_pos(player.move_speed * 2);
-    ctx.lineTo(draw_map_start_x + direction_pos.x * map_size_per_tile + map_direction_center, draw_map_start_y + direction_pos.y * map_size_per_tile + map_direction_center);
-    ctx.strokeStyle = map_colors.direction;
-    ctx.lineWidth = player_direction_line_width;
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
+    // let direction_pos = player.get_direction_pos(player.move_speed * 2);
+    // ctx.lineTo(draw_map_start_x + direction_pos.x * map_size_per_tile + map_direction_center, draw_map_start_y + direction_pos.y * map_size_per_tile + map_direction_center);
+    // ctx.strokeStyle = map_colors.direction;
+    // ctx.lineWidth = player_direction_line_width;
+    // ctx.stroke();
+
+    // draw player ray directions 
+    for (let i = 0; i < ray_postions.length; i += 25) {
+        let ray = ray_postions[i];
+        if (!ray) continue;
+        ctx.beginPath();
+        ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
+        ctx.lineTo(draw_map_start_x + ray.x * map_size_per_tile + map_direction_center, draw_map_start_y + ray.y * map_size_per_tile + map_direction_center);
+        ctx.strokeStyle = map_colors.direction;
+        ctx.lineWidth = player_direction_line_width;
+        ctx.stroke();
+    }
+                
+
     // restore the context to remove the clip
     ctx.restore();
 }
 
-
-function drawPseudo3d() {
-    for (let i = 0; i < canvas.width; i++) {
+const ray_postions = [];
+function calculateRayDIrections() {
+        for (let i = 0; i < canvas.width; i++) {
         let ray_angle = player.direction - (player.pov_rad / 2) + (i / canvas.width) * player.pov_rad;
 
         let ray_x = player.position.x;
@@ -96,43 +110,57 @@ function drawPseudo3d() {
         let ray_dx = Math.cos(ray_angle);
         let ray_dy = Math.sin(ray_angle);
         let distance = 0;
-
+        let map_x = 0;
+        let map_y = 0;
         while (distance < max_distance) {
             ray_x += ray_dx * step_size;
             ray_y += ray_dy * step_size;
             distance += step_size;
-
-            let map_x = Math.floor(ray_x);
-            let map_y = Math.floor(ray_y);
+            map_x = Math.floor(ray_x);
+            map_y = Math.floor(ray_y);
 
             if (gameMap.map[map_y] && gameMap.map[map_y][map_x] && gameMap.map[map_y][map_x] !== 0) {
-
-                let corrected_distance = distance * Math.cos(ray_angle - player.direction);
-
-                let wall_height = Math.max(1, canvas.height / (corrected_distance * 2));
-                let wall_top = (canvas.height - wall_height) / 2;
-                let wall_bottom = wall_top + wall_height;
-
- 
-                ctx.fillStyle = 'skyblue';
-                ctx.fillRect(i, 0, 1, wall_top);
-
-
-                ctx.fillStyle = 'darkgray';
-                ctx.fillRect(i, wall_top, 1, wall_height);
-
-
-                ctx.fillStyle = 'gray';
-                ctx.fillRect(i, wall_bottom, 1, canvas.height - wall_bottom);
                 break;
             }
         }
+        ray_postions[i] = {
+            x: ray_x,
+            y: ray_y,
+            distance: distance,
+            angle: ray_angle
+        };
+    }
+}
+
+function drawPseudo3d() {
+    for (let i = 0; i < canvas.width; i++) {
+        let ray = ray_postions[i];
+        let ray_angle = ray.angle;
+        let distance = ray.distance;
+        let corrected_distance = distance * Math.cos(ray_angle - player.direction);
+
+        let wall_height = Math.max(1, canvas.height / (corrected_distance * 2));
+        let wall_top = (canvas.height - wall_height) / 2;
+        let wall_bottom = wall_top + wall_height;
+
+
+        ctx.fillStyle = 'skyblue';
+        ctx.fillRect(i, 0, 1, wall_top);
+
+
+        ctx.fillStyle = 'darkgray';
+        ctx.fillRect(i, wall_top, 1, wall_height);
+
+
+        ctx.fillStyle = 'gray';
+        ctx.fillRect(i, wall_bottom, 1, canvas.height - wall_bottom);
     }
 }
 
 
 function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    calculateRayDIrections();
     drawPseudo3d();
     drawInfo();
     drawMiniMap();

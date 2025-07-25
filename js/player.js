@@ -1,7 +1,7 @@
 export class Player {
     constructor() {
         this.position = {x: 1, y: 1};
-        this.pov = 60
+        this.pov = 70
         this.pov_rad = this.pov * Math.PI / 180;
         this.direction = 0;
         this.move_speed = 0.5;
