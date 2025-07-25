@@ -1,6 +1,8 @@
 import { Map } from './map.js';
 import { Player } from './player.js';
 
+import { darkenColor } from './utils.js';
+
 const player = new Player();
 const gameMap = new Map();
 
@@ -24,7 +26,7 @@ const draw_map_start_y = mini_map_padding
 
 const mini_map_colors = {1: 'MediumPurple',player:"MediumSpringGreen",direction :"MediumSlateBlue"};
 
-const render_colors = {wall : "MediumPurple" ,floor: "white"};
+const render_colors = {wall : "rgb(147, 112, 219)" ,floor: "white"};
 
 let lastTime = performance.now();
 let FPS = 0
@@ -153,11 +155,13 @@ function drawPseudo3d() {
 
 
 
-        ctx.fillStyle = render_colors.wall;
+        ctx.fillStyle = darkenColor(render_colors.wall,1 - corrected_distance / max_distance);
         ctx.fillRect(i, wall_top, 1, wall_height);
 
-
-        ctx.fillStyle = render_colors.floor;
+        let gradient = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
+        gradient.addColorStop(0,"gray"); // farther
+        gradient.addColorStop(1, render_colors.floor); // nearer
+        ctx.fillStyle = gradient;
         ctx.fillRect(i, wall_bottom, 1, canvas.height - wall_bottom);
     }
 }
