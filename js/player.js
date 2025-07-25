@@ -4,8 +4,8 @@ export class Player {
         this.pov = 70
         this.pov_rad = this.pov * Math.PI / 180;
         this.direction = 0;
-        this.move_speed = 0.5;
-        this.rotate_speed = 15;
+        this.move_speed = 0.1;
+        this.rotate_speed = 2;
     }
 
 
