@@ -22,7 +22,9 @@ const draw_map_start_x = canvas.width - map_width- mini_map_padding;
 const draw_map_start_y = mini_map_padding
 
 
-const map_colors = {1: 'MediumPurple',player:"MediumSpringGreen",direction :"MediumSlateBlue"};
+const mini_map_colors = {1: 'MediumPurple',player:"MediumSpringGreen",direction :"MediumSlateBlue"};
+
+const render_colors = {wall : "MediumPurple" ,floor: "white"};
 
 let lastTime = performance.now();
 let FPS = 0
@@ -48,8 +50,8 @@ function drawMiniMap() {
 
     gameMap.map.forEach((row, rowIndex) => {
         row.forEach((tile, colIndex) => {
-            if (map_colors[tile]) {
-                ctx.fillStyle = map_colors[tile];
+            if (mini_map_colors[tile]) {
+                ctx.fillStyle = mini_map_colors[tile];
             }
             else {
                 ctx.fillStyle = 'white';
@@ -67,7 +69,7 @@ function drawMiniMap() {
     });
 
     // draw player in map
-    ctx.fillStyle = map_colors.player;
+    ctx.fillStyle = mini_map_colors.player;
     ctx.fillRect(
         draw_map_start_x + player.position.x * map_size_per_tile,
         draw_map_start_y + player.position.y * map_size_per_tile,
@@ -81,7 +83,7 @@ function drawMiniMap() {
     // ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
     // let direction_pos = player.get_direction_pos(player.move_speed * 2);
     // ctx.lineTo(draw_map_start_x + direction_pos.x * map_size_per_tile + map_direction_center, draw_map_start_y + direction_pos.y * map_size_per_tile + map_direction_center);
-    // ctx.strokeStyle = map_colors.direction;
+    // ctx.strokeStyle = mini_map_colors.direction;
     // ctx.lineWidth = player_direction_line_width;
     // ctx.stroke();
 
@@ -92,7 +94,7 @@ function drawMiniMap() {
         ctx.beginPath();
         ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
         ctx.lineTo(draw_map_start_x + ray.x * map_size_per_tile + map_direction_center, draw_map_start_y + ray.y * map_size_per_tile + map_direction_center);
-        ctx.strokeStyle = map_colors.direction;
+        ctx.strokeStyle = mini_map_colors.direction;
         ctx.lineWidth = player_direction_line_width;
         ctx.stroke();
     }
@@ -142,20 +144,20 @@ function drawPseudo3d() {
         let distance = ray.distance;
         let corrected_distance = distance * Math.cos(ray_angle - player.direction);
 
-        let wall_height = Math.max(1, canvas.height / (corrected_distance * 2));
+        let wall_height = Math.max(1, canvas.height / (corrected_distance * 1.6));
         let wall_top = (canvas.height - wall_height) / 2;
         let wall_bottom = wall_top + wall_height;
 
 
-        ctx.fillStyle = 'skyblue';
-        ctx.fillRect(i, 0, 1, wall_top);
 
 
-        ctx.fillStyle = 'darkgray';
+
+
+        ctx.fillStyle = render_colors.wall;
         ctx.fillRect(i, wall_top, 1, wall_height);
 
 
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = render_colors.floor;
         ctx.fillRect(i, wall_bottom, 1, canvas.height - wall_bottom);
     }
 }
@@ -199,8 +201,4 @@ document.addEventListener("keydown", (e) => {
   if (action) action();
 });
 
-
-
 start();
-
-
