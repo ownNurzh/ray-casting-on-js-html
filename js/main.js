@@ -107,7 +107,7 @@ function drawMiniMap() {
 }
 
 let ray_positions = [];
-function calculateRayDIrections() {
+function calculateRayDirections() {
         for (let i = 0; i < canvas.width; i++) {
         let ray_angle = player.direction - (player.pov_rad / 2) + (i / canvas.width) * player.pov_rad;
 
@@ -194,7 +194,7 @@ function render(currentTime) {
         lastTime = currentTime;
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    calculateRayDIrections();
+    calculateRayDirections();
     drawPseudo3d();
     drawInfo();
     drawMiniMap();
