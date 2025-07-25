@@ -90,8 +90,8 @@ function drawMiniMap() {
     // ctx.stroke();
 
     // draw player ray directions 
-    for (let i = 0; i < ray_postions.length; i += 50) {
-        let ray = ray_postions[i];
+    for (let i = 0; i < ray_positions.length; i += 50) {
+        let ray = ray_positions[i];
         if (!ray) continue;
         ctx.beginPath();
         ctx.moveTo(draw_map_start_x + player.position.x * map_size_per_tile + map_direction_center, draw_map_start_y + player.position.y * map_size_per_tile + map_direction_center);
@@ -106,7 +106,7 @@ function drawMiniMap() {
     ctx.restore();
 }
 
-let ray_postions = [];
+let ray_positions = [];
 function calculateRayDIrections() {
         for (let i = 0; i < canvas.width; i++) {
         let ray_angle = player.direction - (player.pov_rad / 2) + (i / canvas.width) * player.pov_rad;
@@ -133,7 +133,7 @@ function calculateRayDIrections() {
                 break;
             }
         }
-        ray_postions[i] = {
+        ray_positions[i] = {
             x: ray_x,
             y: ray_y,
             distance: distance,
@@ -145,7 +145,7 @@ function calculateRayDIrections() {
 
 function drawPseudo3d() {
     for (let i = 0; i < canvas.width; i++) {
-        let ray = ray_postions[i];
+        let ray = ray_positions[i];
         let ray_angle = ray.angle;
         let distance = ray.distance;
         let corrected_distance = distance * Math.cos(ray_angle - player.direction);
@@ -169,7 +169,7 @@ function drawPseudo3d() {
 
 
 function render(currentTime) {
-    ray_postions = [];
+    ray_positions = [];
     const delta = currentTime - lastTime;
     frames++;
 
