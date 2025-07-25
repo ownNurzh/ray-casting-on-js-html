@@ -106,7 +106,7 @@ function drawMiniMap() {
     ctx.restore();
 }
 
-const ray_postions = [];
+let ray_postions = [];
 function calculateRayDIrections() {
         for (let i = 0; i < canvas.width; i++) {
         let ray_angle = player.direction - (player.pov_rad / 2) + (i / canvas.width) * player.pov_rad;
@@ -119,6 +119,8 @@ function calculateRayDIrections() {
         let distance = 0;
         let map_x = 0;
         let map_y = 0;
+
+        let wall_hit = false;
         while (distance < max_distance) {
             ray_x += ray_dx * step_size;
             ray_y += ray_dy * step_size;
@@ -127,6 +129,7 @@ function calculateRayDIrections() {
             map_y = Math.round(ray_y);
 
             if (gameMap.map[map_y] && gameMap.map[map_y][map_x] && gameMap.map[map_y][map_x] !== 0) {
+                wall_hit = true;
                 break;
             }
         }
@@ -134,7 +137,8 @@ function calculateRayDIrections() {
             x: ray_x,
             y: ray_y,
             distance: distance,
-            angle: ray_angle
+            angle: ray_angle,
+            wall_hit: wall_hit
         };
     }
 }
@@ -151,10 +155,6 @@ function drawPseudo3d() {
         let wall_bottom = wall_top + wall_height;
 
 
-
-
-
-
         ctx.fillStyle = darkenColor(render_colors.wall,1 - corrected_distance / max_distance);
         ctx.fillRect(i, wall_top, 1, wall_height);
 
@@ -169,6 +169,7 @@ function drawPseudo3d() {
 
 
 function render(currentTime) {
+    ray_postions = [];
     const delta = currentTime - lastTime;
     frames++;
 
