@@ -24,11 +24,14 @@ const draw_map_start_y = mini_map_padding
 
 const map_colors = {1: 'MediumPurple',player:"MediumSpringGreen",direction :"MediumSlateBlue"};
 
+let lastTime = performance.now();
+let FPS = 0
+let frames = 0;
 
 function drawInfo() {
     ctx.font = "15px Arial sans-serif";
     ctx.fillStyle = "BlueViolet";
-    ctx.fillText(`X : ${player.position.x.toFixed(2)} | Y : ${player.position.y.toFixed(2)} , DIR : ${player.direction.toFixed(2)} , POV : ${player.pov}`, 10, 20);
+    ctx.fillText(`X : ${player.position.x.toFixed(2)} | Y : ${player.position.y.toFixed(2)} , DIR : ${player.direction.toFixed(2)} , POV : ${player.pov} , FPS : ${FPS}`, 10, 20);
 }
 
 
@@ -158,7 +161,16 @@ function drawPseudo3d() {
 }
 
 
-function render() {
+
+function render(currentTime) {
+    const delta = currentTime - lastTime;
+    frames++;
+
+    if (delta >= 1000) {
+        FPS = frames;
+        frames = 0;
+        lastTime = currentTime;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     calculateRayDIrections();
     drawPseudo3d();
@@ -166,11 +178,12 @@ function render() {
     drawMiniMap();
 
     requestAnimationFrame(render);
+
 }
 
 function start() {
     // start
-    render();
+    requestAnimationFrame(render);
 }
 
 const keys = {
