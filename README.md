@@ -17,26 +17,26 @@ A simple 3D raycasting renderer written in pure JavaScript and HTML Canvas, insp
 
 ## Controls
 
-### W - forward movement
-### A - left turn
-### S - backward movement
-### D - right turn
+**W** - forward movement<br>
+**A** - left turn<br>
+**S** - backward movement<br>
+**D** - right turn<br>
 
 ## Launch
 
 Clone the project and open `index.html` in the browser:
 
-## LICENSE
+```bash
+git clone https://github.com/ownNurzh/ray-casting-on-js-html.git
+```
+
+## License
 
 This project is licensed under [MIT License](./LICENSE).
 
 ## Demo
 
 [Demo](https://ownnurzh.github.io/ray-casting-on-js-html/)
-
-```bash
-git clone https://github.com/ownNurzh/ray-casting-on-js-html.git
-```
 
 # Author
 
