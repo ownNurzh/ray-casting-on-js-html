@@ -5,6 +5,8 @@ A simple 3D raycasting renderer written in pure JavaScript and HTML Canvas, insp
 
 ![Preview](s.jpg)
 
+---
+
 ## Features
 
 - Minimap with player direction
@@ -14,6 +16,7 @@ A simple 3D raycasting renderer written in pure JavaScript and HTML Canvas, insp
 - Camera movement and rotation (WASD)
 - Pure JavaScript without libraries
 
+---
 
 ## Controls
 
@@ -21,6 +24,8 @@ A simple 3D raycasting renderer written in pure JavaScript and HTML Canvas, insp
 **A** - left turn<br>
 **S** - backward movement<br>
 **D** - right turn<br>
+
+---
 
 ## Launch
 
@@ -30,13 +35,19 @@ Clone the project and open `index.html` in the browser:
 git clone https://github.com/ownNurzh/ray-casting-on-js-html.git
 ```
 
+---
+
 ## License
 
 This project is licensed under [MIT License](./LICENSE).
 
+---
+
 ## Demo
 
 [Demo](https://ownnurzh.github.io/ray-casting-on-js-html/)
+
+---
 
 # Author
 
